@@ -20,25 +20,26 @@ func problem2() {
     check(err)
     defer file.Close()
 
-    x, y := 0, 0
+    aim, depth, horizontal := 0, 0, 0
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
         split := strings.Split(scanner.Text(), " ")
         temp, err := strconv.Atoi(split[1])
         check(err)
         if split[0] == "up" {  
-            y -= temp
+            aim -= temp
         } else if split[0] == "down" {
-            y += temp
+            aim += temp
         } else if split[0] == "forward" {
-            x += temp
+            horizontal += temp
+            depth += aim * temp
         }
     }
 
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
     }
-    fmt.Println(x, y, x * y)
+    fmt.Println(depth * horizontal)
 }
 
 func main() {
