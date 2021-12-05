@@ -16,7 +16,7 @@ func check(e error) {
 }
 
 func problem2() {
-	file, err := os.Open("input.txt")
+	file, err := os.Open("input2.txt")
     check(err)
     defer file.Close()
 
@@ -42,7 +42,46 @@ func problem2() {
     fmt.Println(depth * horizontal)
 }
 
+func problem3() {
+    file, err := os.Open("input3.txt")
+    check(err)
+    defer file.Close()
+
+    scanner := bufio.NewScanner(file)
+
+    var countOnes[12]int
+
+    for scanner.Scan() {
+        for index, character := range scanner.Text() {
+            if character == '1' {
+                countOnes[index] += 1
+            }
+        }
+    }
+
+    if err := scanner.Err(); err != nil {
+        log.Fatal(err)
+    }
+    strGamma := ""
+    strEpsilon := ""
+    for _, count := range countOnes {
+        if count > 500 {
+            strGamma += "1"
+            strEpsilon += "0"
+        } else {
+            strGamma += "0"
+            strEpsilon += "1"
+        }
+    }
+    gamma, err := strconv.ParseInt(strGamma, 2, 64)
+    check(err)
+
+    epsilon, err := strconv.ParseInt(strEpsilon, 2, 64)
+    check(err)
+
+    fmt.Println(gamma * epsilon)
+}
+
 func main() {
-	fmt.Println("Welcome to the playground!")
-    problem2()
+    problem3()
 }
