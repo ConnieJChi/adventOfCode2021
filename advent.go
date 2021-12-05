@@ -49,37 +49,80 @@ func problem3() {
 
     scanner := bufio.NewScanner(file)
 
-    var countOnes[12]int
+    var inputArr []string
 
     for scanner.Scan() {
-        for index, character := range scanner.Text() {
-            if character == '1' {
-                countOnes[index] += 1
-            }
-        }
+        inputArr = append(inputArr, scanner.Text())
     }
 
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
     }
-    strGamma := ""
-    strEpsilon := ""
-    for _, count := range countOnes {
-        if count > 500 {
-            strGamma += "1"
-            strEpsilon += "0"
-        } else {
-            strGamma += "0"
-            strEpsilon += "1"
+
+    oxygenArr := make([]string, 1000)
+    co2Arr := make([]string, 1000)
+    copy(oxygenArr, inputArr)
+    copy(co2Arr, inputArr)
+
+    index := 0
+    for len(oxygenArr) > 1 {
+        countOnes := 0
+        for _, inputStr := range oxygenArr {
+            if inputStr[index:index+1] == "1" {
+                countOnes += 1
+            }
         }
+        var tempArr []string
+        var checkVal string
+        fmt.Println(countOnes)
+        if countOnes >= len(oxygenArr) / 2 {
+            checkVal = "1"
+        } else {
+            checkVal = "0"
+        }
+        for _, inputStr := range oxygenArr {
+            if inputStr[index:index+1] == checkVal {
+                tempArr = append(tempArr, inputStr)
+            }
+        }
+        oxygenArr = tempArr
+        index += 1
     }
-    gamma, err := strconv.ParseInt(strGamma, 2, 64)
+
+    index = 0
+    for len(co2Arr) > 1 {
+        countOnes := 0
+        for _, inputStr := range co2Arr {
+            if inputStr[index:index+1] == "1" {
+                countOnes += 1
+            }
+        }
+        var tempArr []string
+        var checkVal string
+        if countOnes >= len(co2Arr) / 2 {
+            checkVal = "0"
+        } else {
+            checkVal = "1"
+        }
+        for _, inputStr := range co2Arr {
+            if inputStr[index:index+1] == checkVal {
+                tempArr = append(tempArr, inputStr)
+            }
+        }
+        co2Arr = tempArr
+        index += 1
+    }
+
+    fmt.Println(oxygenArr)
+    fmt.Println(co2Arr)
+
+    oxygen, err := strconv.ParseInt(oxygenArr[0], 2, 64)
     check(err)
 
-    epsilon, err := strconv.ParseInt(strEpsilon, 2, 64)
+    co2, err := strconv.ParseInt(co2Arr[0], 2, 64)
     check(err)
 
-    fmt.Println(gamma * epsilon)
+    fmt.Println(co2 * oxygen)
 }
 
 func main() {
