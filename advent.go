@@ -7,6 +7,7 @@ import (
     "log"
     "strings"
     "strconv"
+    "math"
 )
 
 func check(e error) {
@@ -202,6 +203,63 @@ func problem4() {
     // fmt.Println(bingoCharts)
 }
 
+func readFile(input string) *os.File {
+    file, err := os.Open(input)
+    check(err)
+    return file
+}
+
+type ranges struct {
+    start int
+    stop int
+}
+
+func problem5() {
+    int count := 0
+
+    file := readFile("input5.txt")
+
+    scanner := bufio.NewScanner(file)
+
+    var checkXRange [] ranges
+    var checkYRange [] ranges
+
+    for scanner.Scan() {
+        unformattedPoints := strings.Split(scanner.Text(), " -> ")
+        tempOne := strings.Split(unformattedPoints[0], ",")
+        tempTwo := strings.Split(unformattedPoints[1], ",")
+
+        tempOneX, err := strconv.Atoi(tempOne[0])
+        check(err)
+        tempOneY, err := strconv.Atoi(tempOne[1])
+        check(err)
+
+        tempTwoX, err := strconv.Atoi(tempTwo[0])
+        check(err)
+        tempTwoY, err := strconv.Atoi(tempTwo[1])
+        check(err)
+
+        for index, xVal := range checkX {
+            if xVal > math.Min(tempOneX, tempTwoX) && xVal < math.Max(tempOneX, tempTwoX) {
+                count += 1
+            }
+        }
+
+        if tempOneX == tempTwoX {
+            checkXRange = append(checkXRange, ranges{start: math.Min(tempOneY, tempTwoY), end: math.Max(tempOneY, tempTwoY)})
+            for index, yRanges := range checkYRange {
+                if  {
+                    count += 1
+                }
+            }
+
+        } else if  pointOne.y == pointTwo.y {
+            checkYRange = append(checkYRange, ranges{start: math.Min(tempOneX, tempTwoX), end: math.Max(tempOneX, tempTwoX)})
+        }
+    }
+    fmt.Println(inputArr)
+}
+
 func main() {
-    problem4()
+    problem5()
 }
