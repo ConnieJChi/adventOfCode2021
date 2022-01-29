@@ -1,0 +1,22 @@
+Diagonal lines:
+6,4 -> 2,0
+
+diagonal lines can be inputed from 4 ways:
+- bottom left, upper right /
+- bottom right, upper left \
+- upper right, bottom left /
+- upper left, bottom right \
+
+if I force read from left for the starting point, how do I check 
+for diagonality?
+
+- iterate from left, adding one to left and either adding one to y for 
+larger point or detracting one from y
+
+There's a better way to do this
+
+(2, 0) - (6, 4) = (-4, -4)
+(6, 4) - (2, 0) = (4, 4)
+if x1 - x2 = y1 - y2 I think? 
+missing (8, 0) - (0, 8)
+(8, 0) - (0, 8) = (8, -8)
