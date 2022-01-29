@@ -337,12 +337,59 @@ func problem6() {
 		for j := 0; j < countNewFishies; j++ {
 			fishies = append(fishies, 8)
 		}
-		// fmt.Println(fishies)
 	}
 
 	fmt.Println(len(fishies))
 }
 
+func problem6part2() {
+	const totalCycles = 256
+
+	file := readFile("input6.txt")
+	scanner := bufio.NewScanner(file)
+	var rawFishs []string
+	for scanner.Scan() {
+		rawFishs = strings.Split(scanner.Text(), ",")
+	}
+
+	fishDict := make(map[int]int)
+	fishDict[0] = 0
+	fishDict[1] = 0
+	fishDict[2] = 0
+	fishDict[3] = 0
+	fishDict[4] = 0
+	fishDict[5] = 0
+	fishDict[6] = 0
+	fishDict[7] = 0
+	fishDict[8] = 0
+	for _, strFish := range rawFishs {
+		intFish, err := strconv.Atoi(strFish)
+		check(err)
+
+		fishDict[intFish] += 1
+	}
+
+	for i := 0; i < totalCycles; i += 1 {
+		temp := fishDict[0]
+		fishDict[0] = fishDict[1]
+		fishDict[1] = fishDict[2]
+		fishDict[2] = fishDict[3]
+		fishDict[3] = fishDict[4]
+		fishDict[4] = fishDict[5]
+		fishDict[5] = fishDict[6]
+		fishDict[6] = fishDict[7]
+		fishDict[7] = fishDict[8]
+		fishDict[8] = temp
+		fishDict[6] += temp
+	}
+	totalCount := 0
+	for i := 0; i < 9; i += 1 {
+		totalCount += fishDict[i]
+	}
+
+	fmt.Println(totalCount)
+}
+
 func main() {
-	problem6()
+	problem6part2()
 }
