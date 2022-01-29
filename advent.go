@@ -207,11 +207,6 @@ func readFile(input string) *os.File {
 	return file
 }
 
-type ranges struct {
-	start int
-	stop  int
-}
-
 func problem5() {
 	file := readFile("input5.txt")
 
@@ -305,6 +300,49 @@ func problem5() {
 	fmt.Println(count)
 }
 
+func nextCycle(fishy *int) int {
+	if *fishy == 0 {
+		*fishy = 6
+		return 1
+	} else {
+		*fishy -= 1
+		return 0
+	}
+}
+
+func problem6() {
+	const totalCycles = 256
+
+	file := readFile("text6.txt")
+	scanner := bufio.NewScanner(file)
+	var rawFishs []string
+	for scanner.Scan() {
+		rawFishs = strings.Split(scanner.Text(), ",")
+	}
+
+	var fishies []int
+	for _, strFish := range rawFishs {
+		intFish, err := strconv.Atoi(strFish)
+		check(err)
+		fishies = append(fishies, intFish)
+	}
+
+	for i := 0; i < totalCycles; i += 1 {
+		countNewFishies := 0
+		for fishIndex := 0; fishIndex < len(fishies); fishIndex += 1 {
+			addFish := nextCycle(&fishies[fishIndex])
+			countNewFishies += addFish
+		}
+
+		for j := 0; j < countNewFishies; j++ {
+			fishies = append(fishies, 8)
+		}
+		// fmt.Println(fishies)
+	}
+
+	fmt.Println(len(fishies))
+}
+
 func main() {
-	problem5()
+	problem6()
 }
