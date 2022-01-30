@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -390,6 +391,56 @@ func problem6part2() {
 	fmt.Println(totalCount)
 }
 
+func sumUpTo(num int) int {
+	retVal := 0
+	for i := 1; i <= num; i += 1 {
+		retVal += i
+	}
+	return retVal
+}
+
+func MinMax(array []int) (int, int) {
+	var max int = array[0]
+	var min int = array[0]
+	for _, value := range array {
+		if max < value {
+			max = value
+		}
+		if min > value {
+			min = value
+		}
+	}
+	return min, max
+}
+
+func problem7() {
+	file := readFile("input7.txt")
+	scanner := bufio.NewScanner(file)
+	var strCrabbies []string
+	for scanner.Scan() {
+		strCrabbies = strings.Split(scanner.Text(), ",")
+	}
+
+	var crabbies []int
+	for _, crab := range strCrabbies {
+		newCrab, err := strconv.Atoi(crab)
+		check(err)
+		crabbies = append(crabbies, newCrab)
+	}
+
+	minFuel := math.MaxInt32
+	crabMin, crabMax := MinMax(crabbies)
+	for i := crabMin; i < crabMax; i += 1 {
+		currentFuel := 0
+		for _, crabs := range crabbies {
+			currentFuel += sumUpTo(int(math.Abs(float64(i) - float64(crabs))))
+		}
+		minFuel = int(math.Min(float64(minFuel), float64(currentFuel)))
+	}
+
+	fmt.Println(minFuel)
+}
+
 func main() {
-	problem6part2()
+	problem7()
 }
