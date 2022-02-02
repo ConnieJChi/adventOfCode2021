@@ -441,6 +441,30 @@ func problem7() {
 	fmt.Println(minFuel)
 }
 
+func problem8() {
+	file := readFile("input8.txt")
+	scanner := bufio.NewScanner(file)
+	var inputSignal [][]string
+	var outputSignal [][]string
+	for scanner.Scan() {
+		inAndOut := strings.Split(scanner.Text(), " | ")
+		inputSignal = append(inputSignal, strings.Split(inAndOut[0], " "))
+		outputSignal = append(outputSignal, strings.Split(inAndOut[1], " "))
+	}
+	// fmt.Println(inputSignal)
+	// fmt.Println(outputSignal)
+
+	count := 0
+	for _, outputArr := range outputSignal {
+		for _, output := range outputArr {
+			if len(output) == 2 || len(output) == 7 || len(output) == 4 || len(output) == 3 {
+				count += 1
+			}
+		}
+	}
+	fmt.Println(count)
+}
+
 func main() {
-	problem7()
+	problem8()
 }
